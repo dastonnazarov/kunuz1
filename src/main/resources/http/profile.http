@@ -3,10 +3,30 @@ POST localhost:8081/api/v1/profile
 Content-Type:  application/json
 
 {
-  "name": "Alish",
-  "surname": "Aliyev",
-  "email": "alish@mail.ru",
-  "phone": "1213",
-  "password": "123456",
-  "role": "MODERATOR"
+  "name": "Vali",
+  "surname": "Valiyev",
+  "email": "vali@mail.ru",
+  "phone": "12311",
+  "password": "33221",
+  "role": "USER"
 }
+
+
+
+### update profile
+PUT localhost:8081/api/v1/profile/update2/2
+Content-Type:  application/json
+
+{
+"name": "AAA",
+"surname": "BBB",
+"email": "AABB@mail.ru",
+"phone": "3333",
+"password": "11112",
+"role": "PUBLISHER"
+}
+
+
+### get profleList
+GET localhost:8081/api/v1/profile/getList
+Content-Type:  application/json

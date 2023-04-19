@@ -8,6 +8,8 @@ import java.util.Optional;
 
 @Repository
 public interface ProfileRepository extends CrudRepository<ProfileEntity,Integer> {
-//    Optional<ProfileEntity> findByEmailAndPasswordAndVisible(String em, String md5Hash, boolean b);
-Optional<ProfileEntity> findByEmailAndPasswordAndVisible(String email,String password, boolean visible);
+
+    Optional<ProfileEntity> findByEmailAndPasswordAndVisible(String email,String password, boolean visible);
+
+    Optional<ProfileEntity> findByEmailAndPasswordAndPhone(String email, String md5Hash, String phone);
 }

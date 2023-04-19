@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProfileService {
@@ -38,7 +41,13 @@ public class ProfileService {
     }
 
     public void isValidProfile(ProfileDTO dto) {
+
         // throw ...
+        Optional<ProfileEntity> byId = profileRepository.findById(dto.getId());
+        if(byId.isEmpty()){
+            throw new AppBadRequestException("profile not found");
+        }
+
     }
 
     public ProfileEntity get(Integer id) {
@@ -47,4 +56,65 @@ public class ProfileService {
         });
     }
 
+    public ProfileDTO update1(Integer id, ProfileDTO dto) {
+        Optional<ProfileEntity> byId = profileRepository.findById(id);
+        if(byId.isEmpty()){
+            throw new AppBadRequestException("bad exception");
+        }
+        ProfileEntity entity = byId.get();
+        if (!entity.getStatus().equals(GeneralStatus.ACTIVE)) {
+            throw new AppBadRequestException("this profile cann't update");
+        }
+        entity.setName(dto.getName());
+        entity.setSurname(dto.getSurname());
+        entity.setPhone(dto.getPhone());
+        entity.setEmail(dto.getEmail());
+        entity.setPassword(MD5Util.getMd5Hash(dto.getPassword()));
+        entity.setRole(dto.getRole());
+        entity.setVisible(true);
+        entity.setStatus(GeneralStatus.ACTIVE);
+        profileRepository.save(entity);
+        dto.setId(entity.getId());
+        return dto;
+    }
+
+    public ProfileDTO update2(Integer id, ProfileDTO dto) {
+        Optional<ProfileEntity> byId = profileRepository.findById(id);
+        if(byId.isEmpty()){
+            throw new AppBadRequestException("bad exception");
+        }
+        ProfileEntity entity = byId.get();
+        if (!entity.getStatus().equals(GeneralStatus.ACTIVE)) {
+            throw new AppBadRequestException("this profile cann't update");
+        }
+        entity.setName(dto.getName());
+        entity.setSurname(dto.getSurname());
+        entity.setPhone(dto.getPhone());
+        entity.setEmail(dto.getEmail());
+        entity.setPassword(MD5Util.getMd5Hash(dto.getPassword()));
+        entity.setRole(dto.getRole());
+        entity.setVisible(true);
+        entity.setStatus(GeneralStatus.ACTIVE);
+        profileRepository.save(entity);
+        dto.setId(entity.getId());
+        return dto;
+    }
+
+    public List<ProfileDTO> getAll() {
+        Iterable<ProfileEntity> all = profileRepository.findAll();
+        List<ProfileDTO> profileDTOS = new LinkedList<>();
+        all.forEach(entity -> {
+           ProfileDTO dto = new ProfileDTO();
+           dto.setId(entity.getId());
+           dto.setName(entity.getName());
+           dto.setSurname(entity.getSurname());
+           dto.setEmail(entity.getEmail());
+           dto.setPhone(entity.getPhone());
+           dto.setPassword(MD5Util.getMd5Hash(entity.getPassword()));
+           dto.setRole(entity.getRole());
+           dto.setStatus(GeneralStatus.ACTIVE);
+           profileDTOS.add(dto);
+        });
+        return profileDTOS;
+    }
 }
