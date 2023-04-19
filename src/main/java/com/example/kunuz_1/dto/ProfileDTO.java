@@ -3,7 +3,6 @@ package com.example.kunuz_1.dto;
 
 import com.example.kunuz_1.enums.GeneralStatus;
 import com.example.kunuz_1.enums.ProfileRole;
-import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 
