@@ -1,0 +1,19 @@
+
+### articleType create
+POST localhost:8081/api/v1/article
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE4NDUyNTQsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODE5MzE2NTQsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.e_KqkR5CsfEGXS8nnkOZ5gZK8hYMxf8hHwsieOfRp-9ET5HL3rIOzWQkPSzSB3kM_t3qmGGTr-nr4n_74lbTEwContent-Type:  application/json
+Content-Type: application/json
+
+{
+  "nameUZ": "UZ",
+  "nameEN": "EN",
+  "nameRU": "RU"
+
+}
+
+
+
+
+### articleType create
+PUT localhost:8081/api/v1/article/pagingGetAll
+Content-Type: application/json

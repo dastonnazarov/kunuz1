@@ -3,30 +3,36 @@ POST localhost:8081/api/v1/profile
 Content-Type:  application/json
 
 {
-  "name": "Vali",
-  "surname": "Valiyev",
-  "email": "vali@mail.ru",
-  "phone": "12311",
-  "password": "33221",
+  "name": "Jasur",
+  "surname": "Jumanov",
+  "email": "jasur@mail.ru",
+  "phone": "123456789",
+  "password": "332244",
   "role": "USER"
 }
 
 
 
 ### update profile
-PUT localhost:8081/api/v1/profile/update2/2
+PUT localhost:8081/api/v1/profile/update1/2
 Content-Type:  application/json
 
 {
-"name": "AAA",
-"surname": "BBB",
-"email": "AABB@mail.ru",
-"phone": "3333",
-"password": "11112",
+"name": "ss",
+"surname": "aa",
+"email": "aass@mail.ru",
+"phone": "2211",
+"password": "1111121111",
 "role": "PUBLISHER"
 }
 
 
+
+### delete
+DELETE localhost:8081/api/v1/profile/delete/2
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE4NDUyNTQsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODE5MzE2NTQsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.e_KqkR5CsfEGXS8nnkOZ5gZK8hYMxf8hHwsieOfRp-9ET5HL3rIOzWQkPSzSB3kM_t3qmGGTr-nr4n_74lbTEw
+
+
 ### get profleList
-GET localhost:8081/api/v1/profile/getList
+GET localhost:8081/api/v1/profile/paging
 Content-Type:  application/json

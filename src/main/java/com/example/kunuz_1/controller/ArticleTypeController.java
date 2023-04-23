@@ -1,59 +1,46 @@
 package com.example.kunuz_1.controller;
 
-
+import com.example.kunuz_1.dto.articleType.ArticleTypeDTO;
 import com.example.kunuz_1.dto.jwt.JwtDTO;
 import com.example.kunuz_1.dto.profile.ProfileDTO;
-import com.example.kunuz_1.entity.ProfileEntity;
 import com.example.kunuz_1.enums.ProfileRole;
 import com.example.kunuz_1.excp.MethodNotAllowedException;
-import com.example.kunuz_1.service.ProfileService;
+import com.example.kunuz_1.service.ArticleTypeService;
 import com.example.kunuz_1.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/v1/profile")
-public class ProfileController {
-
+@RequestMapping("/api/v1/article")
+public class ArticleTypeController {
     @Autowired
-    private ProfileService profileService;
+    private ArticleTypeService articleTypeService;
 
     @PostMapping({"", "/"})
-    public ResponseEntity<ProfileDTO> create(@RequestBody ProfileDTO dto,
-                                             @RequestHeader("Authorization") String authorization) {
+    public ResponseEntity<ArticleTypeDTO> create(@RequestBody ArticleTypeDTO dto,
+                                                 @RequestHeader("Authorization") String authorization) {
         String[] str = authorization.split(" ");
         String jwt = str[1];
         JwtDTO jwtDTO = JwtUtil.decode(jwt);
-
         if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {
             throw new MethodNotAllowedException("Method not allowed");
         }
-        return ResponseEntity.ok(profileService.create(dto, jwtDTO.getId()));
+        return ResponseEntity.ok(articleTypeService.create(dto));
     }
 
-    @PutMapping("/update1/{id}")
-    public ResponseEntity<ProfileDTO> update1(@PathVariable("id")Integer id,@RequestBody ProfileDTO dto,
-                                             @RequestHeader("Authorization")String authorization) {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ArticleTypeDTO> update(@PathVariable("id") Integer id, @RequestBody ArticleTypeDTO dto,
+                                                 @RequestHeader("Authorization") String authorization){
         String[] str = authorization.split(" ");
         String jwt = str[1];
         JwtDTO jwtDTO = JwtUtil.decode(jwt);
-        if(!jwtDTO.getRole().equals(ProfileRole.ADMIN)){
-            throw new MethodNotAllowedException("Method not Allowed");
+        if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {
+            throw new MethodNotAllowedException("Method not allowed");
         }
-        return ResponseEntity.ok(profileService.update1(id,dto));
+        return ResponseEntity.ok(articleTypeService.update(id,dto));
     }
-
-
-
-    @PutMapping("/update2/{id}")
-    public ProfileDTO update2(@PathVariable("id")Integer id, @RequestBody ProfileDTO dto) {
-        return ResponseEntity.ok(profileService.update2(id,dto)).getBody();
-    }
-
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable("id")Integer id,
@@ -64,24 +51,17 @@ public class ProfileController {
         if(!jwtDTO.getRole().equals(ProfileRole.ADMIN)){
             throw new MethodNotAllowedException("Method not Allowed");
         }
-        return ResponseEntity.ok(profileService.delete(id));
+        return ResponseEntity.ok(articleTypeService.delete(id));
     }
 
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ProfileDTO> getById(@PathVariable("id") Integer id) {
-        return null;
-    }
-
-
-
-
-    @PutMapping(value = "/paging")
-    public ResponseEntity<Page<ProfileDTO>> paging(@RequestHeader("Authorization") String authorization,
+    @PutMapping(value = "/pagingGetAll")
+    public ResponseEntity<Page<ArticleTypeDTO>> paging(@RequestHeader("Authorization") String authorization,
                                                    @RequestParam(value = "page", defaultValue = "1") int page,
                                                    @RequestParam(value = "size", defaultValue = "2") int size) {
         JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
-        Page<ProfileDTO> response = profileService.paginationGetAll(page, size);
+        Page<ArticleTypeDTO> response = articleTypeService.paginationGetAll(page, size);
         return ResponseEntity.ok(response);
     }
+
 }

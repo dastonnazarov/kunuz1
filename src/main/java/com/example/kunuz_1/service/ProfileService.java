@@ -1,12 +1,13 @@
 package com.example.kunuz_1.service;
 
-import com.example.kunuz_1.dto.ProfileDTO;
+import com.example.kunuz_1.dto.profile.ProfileDTO;
 import com.example.kunuz_1.entity.ProfileEntity;
 import com.example.kunuz_1.enums.GeneralStatus;
 import com.example.kunuz_1.excp.AppBadRequestException;
 import com.example.kunuz_1.repository.ProfileRepository;
 import com.example.kunuz_1.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,8 +22,8 @@ public class ProfileService {
     public ProfileDTO create(ProfileDTO dto, Integer adminId) {
         // check - homework
         isValidProfile(dto);
-
         ProfileEntity entity = new ProfileEntity();
+
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
         entity.setPhone(dto.getPhone());
@@ -100,21 +101,36 @@ public class ProfileService {
         return dto;
     }
 
-    public List<ProfileDTO> getAll() {
-        Iterable<ProfileEntity> all = profileRepository.findAll();
-        List<ProfileDTO> profileDTOS = new LinkedList<>();
-        all.forEach(entity -> {
-           ProfileDTO dto = new ProfileDTO();
-           dto.setId(entity.getId());
-           dto.setName(entity.getName());
-           dto.setSurname(entity.getSurname());
-           dto.setEmail(entity.getEmail());
-           dto.setPhone(entity.getPhone());
-           dto.setPassword(MD5Util.getMd5Hash(entity.getPassword()));
-           dto.setRole(entity.getRole());
-           dto.setStatus(GeneralStatus.ACTIVE);
-           profileDTOS.add(dto);
-        });
-        return profileDTOS;
+    public Page<ProfileDTO> paginationGetAll(int page, int size) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+        Page<ProfileEntity> pageObj = profileRepository.findAll(pageable);
+        Long totalCount = pageObj.getTotalElements();
+        List<ProfileEntity> entityList = pageObj.getContent();
+        List<ProfileDTO> dtoList = new LinkedList<>();
+        for (ProfileEntity entity : entityList) {
+            ProfileDTO dto = new ProfileDTO();
+            dto.setId(entity.getId());
+            dto.setName(entity.getName());
+            dto.setPhone(entity.getPhone());
+            dto.setPassword(entity.getPassword());
+            dto.setRole(entity.getRole());
+            dto.setSurname(entity.getSurname());
+            dto.setStatus(entity.getStatus());
+            dto.setEmail(entity.getEmail());
+            dto.setVisible(entity.getVisible());
+            dtoList.add(dto);
+        }
+        Page<ProfileDTO> response = new PageImpl<ProfileDTO>(dtoList, pageable, totalCount);
+        return response;
+    }
+
+    public boolean delete(Integer id) {
+        Optional<ProfileEntity> byId = profileRepository.findById(id);
+        if (byId.isEmpty()){
+            throw new AppBadRequestException("profile not found");
+        }
+        profileRepository.delete(byId.get());
+        return true;
     }
 }

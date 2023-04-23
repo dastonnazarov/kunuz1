@@ -1,4 +1,4 @@
-package com.example.kunuz_1.dto;
+package com.example.kunuz_1.dto.auth;
 
 import lombok.Getter;
 import lombok.Setter;
