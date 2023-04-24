@@ -25,8 +25,6 @@ public class ArticleTypeService {
         entity.setNameUZ(dto.getNameUZ());
         entity.setNameRU(dto.getNameRU());
         entity.setNameEN(dto.getNameEN());
-        entity.setCreatedDate(LocalDateTime.now());
-        entity.setVisible(true);
         articleTypeRepository.save(entity); // save profile
 
         dto.setId(entity.getId());
@@ -44,7 +42,7 @@ public class ArticleTypeService {
     public ArticleTypeDTO update(Integer id, ArticleTypeDTO dto) {
         Optional<ArticleTypeEntity> optional = articleTypeRepository.findById(id);
         if(optional.isEmpty()){
-            throw new AppBadRequestException("not found");
+            throw new AppBadRequestException("article not found");
         }
         ArticleTypeEntity entity = optional.get();
         entity.setNameUZ(dto.getNameUZ());

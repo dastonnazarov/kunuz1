@@ -8,19 +8,20 @@ Content-Type:  application/json
   "email": "jasur@mail.ru",
   "phone": "123456789",
   "password": "332244",
-  "role": "USER"
+  "role": "MODERATOR"
 }
 
 
 
 ### update profile
-PUT localhost:8081/api/v1/profile/update1/2
+POST localhost:8081/api/v1/profile/update1/3
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODIyNDgzOTQsImlkIjozLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIzMzQ3OTQsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.7RteHcbwof45iNHtjhanE8o_-ZPUZvT5XIhKA_tAEAiLVcCDa0AWs8t6_2sSX3ISHZq2P2scyLMrmkBZD1cnNw
 Content-Type:  application/json
 
 {
-"name": "ss",
-"surname": "aa",
-"email": "aass@mail.ru",
+"name": "Sobir",
+"surname": "Sobirov",
+"email": "sobir@mail.ru",
 "phone": "2211",
 "password": "1111121111",
 "role": "PUBLISHER"
@@ -30,9 +31,10 @@ Content-Type:  application/json
 
 ### delete
 DELETE localhost:8081/api/v1/profile/delete/2
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODE4NDUyNTQsImlkIjoyLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODE5MzE2NTQsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.e_KqkR5CsfEGXS8nnkOZ5gZK8hYMxf8hHwsieOfRp-9ET5HL3rIOzWQkPSzSB3kM_t3qmGGTr-nr4n_74lbTEw
-
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODIyNDgzOTQsImlkIjozLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIzMzQ3OTQsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.7RteHcbwof45iNHtjhanE8o_-ZPUZvT5XIhKA_tAEAiLVcCDa0AWs8t6_2sSX3ISHZq2P2scyLMrmkBZD1cnNw
+Content-Type: application/json
 
 ### get profleList
-GET localhost:8081/api/v1/profile/paging
+GET localhost:8081/api/v1/profile/getAll?page=1&size=3
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODIyNDgzOTQsImlkIjozLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIzMzQ3OTQsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.7RteHcbwof45iNHtjhanE8o_-ZPUZvT5XIhKA_tAEAiLVcCDa0AWs8t6_2sSX3ISHZq2P2scyLMrmkBZD1cnNw
 Content-Type:  application/json

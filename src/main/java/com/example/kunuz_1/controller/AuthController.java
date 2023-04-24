@@ -16,14 +16,13 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping("")
+    @PostMapping({"","/"})
     public ResponseEntity<AuthResponseDTO> login(@RequestBody AuthDTO dto) {
-        //return ResponseEntity.ok(authService.login(dto));
-        return null;
+        return ResponseEntity.ok(authService.login(dto));
     }
 
-   @PostMapping({"/registration"})
-   public  ResponseEntity<?>registration(@RequestBody RegistrationDTO dto){
+    @PostMapping({"/registration"})
+    public ResponseEntity<?> registration(@RequestBody ProfileDTO dto){
         return ResponseEntity.ok(authService.registration(dto));
     }
 

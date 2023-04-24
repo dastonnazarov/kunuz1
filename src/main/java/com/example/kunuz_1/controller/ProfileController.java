@@ -35,7 +35,7 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.create(dto, jwtDTO.getId()));
     }
 
-    @PutMapping("/update1/{id}")
+    @PostMapping("/update1/{id}")
     public ResponseEntity<ProfileDTO> update1(@PathVariable("id")Integer id,@RequestBody ProfileDTO dto,
                                              @RequestHeader("Authorization")String authorization) {
         String[] str = authorization.split(" ");
@@ -68,20 +68,24 @@ public class ProfileController {
     }
 
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ProfileDTO> getById(@PathVariable("id") Integer id) {
-        return null;
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<ProfileDTO> getById(@PathVariable("id") Integer id) {
+//        return null;
+//    }
 
 
 
 
-    @PutMapping(value = "/paging")
-    public ResponseEntity<Page<ProfileDTO>> paging(@RequestHeader("Authorization") String authorization,
-                                                   @RequestParam(value = "page", defaultValue = "1") int page,
-                                                   @RequestParam(value = "size", defaultValue = "2") int size) {
-        JwtUtil.getJwtDTO(authorization, ProfileRole.ADMIN);
-        Page<ProfileDTO> response = profileService.paginationGetAll(page, size);
-        return ResponseEntity.ok(response);
+    @GetMapping("/getAll")
+    public ResponseEntity<Page<ProfileDTO>> pagination(@RequestParam(value = "page",defaultValue = "1") int page,
+                                                          @RequestParam(value = "size",defaultValue = "6") int size,
+                                                          @RequestHeader("Authorization") String authorization) {
+        String[] str = authorization.split(" ");
+        String jwt = str[1];
+        JwtDTO jwtDTO = JwtUtil.decode(jwt);
+        if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {
+            throw new MethodNotAllowedException("Method not allowed");
+        }
+        return ResponseEntity.ok(profileService.getAll(page,size));
     }
 }

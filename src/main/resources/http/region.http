@@ -1,6 +1,20 @@
 
-### articleType create
-POST localhost:8081/api/v1/articleType
+### category create
+POST localhost:8081/api/v1/region
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODIyNTA1NTksImlkIjozLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIzMzY5NTksImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.1nCgPtuifWhtPWMa4UJWgw2G1leTafx7Cq5fstNeTwoC7nE8U6irOpULqJ-VhhDwrWfL-uq4qfHPqp34batZNA
+Content-Type: application/json
+
+{
+  "nameUZ": "uz",
+  "nameEN": "en",
+  "nameRU": "ru"
+}
+
+
+
+
+### region update
+PUT localhost:8081/api/v1/region/update/1
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODIyNTA1NTksImlkIjozLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIzMzY5NTksImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.1nCgPtuifWhtPWMa4UJWgw2G1leTafx7Cq5fstNeTwoC7nE8U6irOpULqJ-VhhDwrWfL-uq4qfHPqp34batZNA
 Content-Type: application/json
 
@@ -11,27 +25,13 @@ Content-Type: application/json
 }
 
 
-
-
-### articleType update
-PUT localhost:8081/api/v1/articleType/update/1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODIyNTA1NTksImlkIjozLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIzMzY5NTksImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.1nCgPtuifWhtPWMa4UJWgw2G1leTafx7Cq5fstNeTwoC7nE8U6irOpULqJ-VhhDwrWfL-uq4qfHPqp34batZNA
-Content-Type: application/json
-
-{
-  "nameUZ": "UZ",
-  "nameEN": "EN",
-  "nameRU": "RU"
-}
-
-
-### articleType update
-DELETE localhost:8081/api/v1/articleType/delete/1
+### category update
+DELETE localhost:8081/api/v1/region/delete/2
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODIyNTA1NTksImlkIjozLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIzMzY5NTksImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.1nCgPtuifWhtPWMa4UJWgw2G1leTafx7Cq5fstNeTwoC7nE8U6irOpULqJ-VhhDwrWfL-uq4qfHPqp34batZNA
 Content-Type: application/json
 
 
-### articleType update
-PUT localhost:8081/api/v1/articleType/getAll
+### category getAll
+PUT localhost:8081/api/v1/region/getAll
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODIyNTA1NTksImlkIjozLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIzMzY5NTksImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.1nCgPtuifWhtPWMa4UJWgw2G1leTafx7Cq5fstNeTwoC7nE8U6irOpULqJ-VhhDwrWfL-uq4qfHPqp34batZNA
 Content-Type: application/json

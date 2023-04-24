@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/article")
+@RequestMapping("/api/v1/articleType")
 public class ArticleTypeController {
     @Autowired
     private ArticleTypeService articleTypeService;
@@ -55,7 +55,7 @@ public class ArticleTypeController {
     }
 
 
-    @PutMapping(value = "/pagingGetAll")
+    @PutMapping(value = "/getAll")
     public ResponseEntity<Page<ArticleTypeDTO>> paging(@RequestHeader("Authorization") String authorization,
                                                    @RequestParam(value = "page", defaultValue = "1") int page,
                                                    @RequestParam(value = "size", defaultValue = "2") int size) {

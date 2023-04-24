@@ -101,7 +101,36 @@ public class ProfileService {
         return dto;
     }
 
-    public Page<ProfileDTO> paginationGetAll(int page, int size) {
+    public Page<ProfileDTO> getAll(int page, int size) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
+        Pageable pageable = PageRequest.of(page - 1,size,sort);
+
+        Page<ProfileEntity> pageObj = profileRepository.findAll(pageable);
+        Long totalCount = pageObj.getTotalElements();
+
+        List<ProfileEntity> courseEntitieList = pageObj.getContent();
+        List<ProfileDTO> list = new LinkedList<>();
+
+        for(ProfileEntity entity : courseEntitieList){
+            ProfileDTO dto = new ProfileDTO();
+            dto.setId(entity.getId());
+            dto.setName(entity.getName());
+            dto.setSurname(entity.getSurname());
+            dto.setPhone(entity.getPhone());
+            dto.setEmail(entity.getEmail());
+            dto.setRole(entity.getRole());
+            dto.setPassword(entity.getPassword()); // MD5 ?
+            //dto.setVisible(true);
+            dto.setStatus(GeneralStatus.ACTIVE);
+
+            list.add(dto);
+        }
+        Page<ProfileDTO> response = new PageImpl<>(list,pageable,totalCount);
+
+        return response;
+    }
+
+  /*  public Page<ProfileDTO> paginationGetAll(int page, int size) {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
         Pageable pageable = PageRequest.of(page - 1, size, sort);
         Page<ProfileEntity> pageObj = profileRepository.findAll(pageable);
@@ -110,6 +139,7 @@ public class ProfileService {
         List<ProfileDTO> dtoList = new LinkedList<>();
         for (ProfileEntity entity : entityList) {
             ProfileDTO dto = new ProfileDTO();
+
             dto.setId(entity.getId());
             dto.setName(entity.getName());
             dto.setPhone(entity.getPhone());
@@ -123,7 +153,7 @@ public class ProfileService {
         }
         Page<ProfileDTO> response = new PageImpl<ProfileDTO>(dtoList, pageable, totalCount);
         return response;
-    }
+    }*/
 
     public boolean delete(Integer id) {
         Optional<ProfileEntity> byId = profileRepository.findById(id);
