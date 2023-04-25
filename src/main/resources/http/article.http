@@ -31,3 +31,15 @@ Content-Type: application/json
   "category_id": 1,
   "moderator_id": 1
 }
+
+### article delete
+DELETE localhost:8081/api/v1/article/delete/2
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODIzNDM1MzksImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjgyNDI5OTM5LCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.XMGPa_dBm-CEtdmlwDsz-AflziH8nQrUh70_joT9rxZmbScXhnMw8yeu-phQFEhM_nlx3FO0kyyxsEOvINrGrQ
+Content-Type: application/json
+
+
+### article changeStatus
+PUT localhost:8081/api/v1/article/changeStatus/3
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI0MDQxNzMsImlkIjoyLCJyb2xlIjoiUFVCTElTSEVSIiwiZXhwIjoxNjgyNDkwNTczLCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.rZrgF6Vy5ojLb16ZgNygXUAT9wSy-lIj1m3bexGb6oohvJUoOiYktat46CCLGcD3BOQDuVoinWSqYyDx9dCRzg
+Content-Type: application/json
+

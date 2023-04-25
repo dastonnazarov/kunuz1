@@ -33,4 +33,18 @@ public class ArticleController {
         return ResponseEntity.ok(articleService.update(id,dto));
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable("id") Integer id,
+                                             @RequestHeader("Authorization") String authorization){
+        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization,ProfileRole.MODERATOR);
+        return ResponseEntity.ok(articleService.delete(id));
+    }
+
+    @PutMapping("/changeStatus/{id}")
+    public ResponseEntity<ArticleDTO> changeStatus(@PathVariable("id") Integer id,@RequestBody ArticleDTO dto,
+                                             @RequestHeader("Authorization") String authorization){
+        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization,ProfileRole.PUBLISHER);
+        return ResponseEntity.ok(articleService.changeStatus(id,dto));
+    }
+
 }

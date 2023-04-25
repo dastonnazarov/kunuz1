@@ -50,9 +50,6 @@ public class ArticleService {
         return dto;
     }
 
-
-
-
     public void isValidProfile(ArticleDTO dto) {
         if(dto.getTitle()==null){
             throw new ItemNotFoundException("title not found");
@@ -106,6 +103,41 @@ public class ArticleService {
         entity.setStatus(ArticleStatus.NO_PUBLISHED);
         entity.setView_count(dto.getView_count());
       //  entity.setPublisher(publisher.get());
+        entity.setModerator(moderator.get());
+        entity.setVisible(true);
+        articleRepository.save(entity);
+        return dto;
+    }
+
+    public Boolean delete(Integer id) {
+        Optional<ArticleEntity> articleId = articleRepository.findById(id);
+        if(articleId.isEmpty()){
+            throw new ItemNotFoundException("item not found");
+        }
+        articleRepository.delete(articleId.get());
+        return true;
+    }
+
+    public ArticleDTO changeStatus(Integer id,ArticleDTO dto) {
+        Optional<ArticleEntity> optional = articleRepository.findById(id);
+        if(optional.isEmpty()){
+            throw new AppBadRequestException("article not found");
+        }
+
+        Optional<RegionEntity> region = regionRepository.findById(dto.getRegion_id());
+        Optional<CategoryEntity> category = categoryRepository.findById(dto.getCategory_id());
+        Optional<ProfileEntity> moderator = profileRepository.findById(dto.getModerator_id());
+        ArticleEntity entity = new ArticleEntity();
+        entity.setId(id);
+        entity.setTitle(dto.getTitle());
+        entity.setDescription(dto.getDescription());
+        entity.setContent(dto.getContent());
+        entity.setShared_count(dto.getShared_count());
+        entity.setImage_id(dto.getImage_id());
+        entity.setRegion(region.get());
+        entity.setCategory(category.get());
+        entity.setStatus(ArticleStatus.PUBLISHED);
+        entity.setView_count(dto.getView_count());
         entity.setModerator(moderator.get());
         entity.setVisible(true);
         articleRepository.save(entity);
