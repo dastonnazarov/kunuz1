@@ -56,7 +56,7 @@ public class CategoryController {
     }
 
 
-    @PutMapping(value = "/pagingGetAll")
+    @PutMapping(  "/getAll")
     public ResponseEntity<Page<CategoryDTO>> paging(@RequestHeader("Authorization") String authorization,
                                                   @RequestParam(value = "page", defaultValue = "1") int page,
                                                   @RequestParam(value = "size", defaultValue = "2") int size) {

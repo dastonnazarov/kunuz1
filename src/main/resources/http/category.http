@@ -32,6 +32,6 @@ Content-Type: application/json
 
 
 ### category getAll
-PUT localhost:8081/api/v1/article/getAll
+PUT localhost:8081/api/v1/category/getAll
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODIyNTA1NTksImlkIjozLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIzMzY5NTksImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.1nCgPtuifWhtPWMa4UJWgw2G1leTafx7Cq5fstNeTwoC7nE8U6irOpULqJ-VhhDwrWfL-uq4qfHPqp34batZNA
 Content-Type: application/json

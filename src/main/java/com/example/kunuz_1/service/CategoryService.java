@@ -3,6 +3,7 @@ package com.example.kunuz_1.service;
 import com.example.kunuz_1.dto.articleType.ArticleTypeDTO;
 import com.example.kunuz_1.dto.category.CategoryDTO;
 import com.example.kunuz_1.dto.region.RegionDTO;
+import com.example.kunuz_1.entity.ArticleEntity;
 import com.example.kunuz_1.entity.ArticleTypeEntity;
 import com.example.kunuz_1.entity.CategoryEntity;
 import com.example.kunuz_1.entity.RegionEntity;
@@ -90,5 +91,11 @@ public class CategoryService {
         }
         Page<CategoryDTO> response = new PageImpl<CategoryDTO>(dtoList, pageable, totalCount);
         return response;
+    }
+
+    public CategoryEntity get(Integer id) {
+        return categoryRepository.findById(id).orElseThrow(() -> {
+            throw new AppBadRequestException("category not found");
+        });
     }
 }

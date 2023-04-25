@@ -29,7 +29,7 @@ public class ProfileController {
         String jwt = str[1];
         JwtDTO jwtDTO = JwtUtil.decode(jwt);
 
-        if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {
+        if (!jwtDTO.getRole().equals(ProfileRole.PUBLISHER)) {
             throw new MethodNotAllowedException("Method not allowed");
         }
         return ResponseEntity.ok(profileService.create(dto, jwtDTO.getId()));

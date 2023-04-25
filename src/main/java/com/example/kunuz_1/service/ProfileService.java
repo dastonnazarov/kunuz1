@@ -43,7 +43,6 @@ public class ProfileService {
 
     public void isValidProfile(ProfileDTO dto) {
 
-        // throw ...
         Optional<ProfileEntity> byId = profileRepository.findById(dto.getId());
         if(byId.isEmpty()){
             throw new AppBadRequestException("profile not found");

@@ -28,7 +28,7 @@ public class RegionController {
         if (!jwtDTO.getRole().equals(ProfileRole.ADMIN)) {
             throw new MethodNotAllowedException("Method not allowed");
         }
-        return ResponseEntity.ok(regionService.create(dto, jwtDTO.getId()));
+        return ResponseEntity.ok(regionService.create(dto));
     }
 
 

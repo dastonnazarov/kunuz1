@@ -3,28 +3,28 @@ POST localhost:8081/api/v1/profile
 Content-Type:  application/json
 
 {
-  "name": "Jasur",
-  "surname": "Jumanov",
-  "email": "jasur@mail.ru",
-  "phone": "123456789",
-  "password": "332244",
-  "role": "MODERATOR"
+  "name": "gg",
+  "surname": "ss",
+  "email": "ggss@mail.ru",
+  "phone": "3332",
+  "password": "123",
+  "role": "PUBLISHER"
 }
 
 
 
 ### update profile
-POST localhost:8081/api/v1/profile/update1/3
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODIyNDgzOTQsImlkIjozLCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODIzMzQ3OTQsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.7RteHcbwof45iNHtjhanE8o_-ZPUZvT5XIhKA_tAEAiLVcCDa0AWs8t6_2sSX3ISHZq2P2scyLMrmkBZD1cnNw
+POST localhost:8081/api/v1/profile/update1/4
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODIzNDI0NjUsImlkIjo1LCJyb2xlIjoiQURNSU4iLCJleHAiOjE2ODI0Mjg4NjUsImlzcyI6Ikt1bnV6IHRlc3QgcG9ydGFsaSJ9.0bodKKjynC8-r3-XmPfnuHN3NNXHwylliQ5YWOSv_D4YAX4YBX9_42m46xiKxbz29B_R42H9ibmHyr_3a2vucw
 Content-Type:  application/json
 
 {
-"name": "Sobir",
-"surname": "Sobirov",
-"email": "sobir@mail.ru",
-"phone": "2211",
-"password": "1111121111",
-"role": "PUBLISHER"
+  "name": "gg",
+  "surname": "ss",
+  "email": "ggss@mail.ru",
+  "phone": "3332",
+  "password": "123",
+  "role": "PUBLISHER"
 }
 
 

@@ -82,7 +82,7 @@ public class AuthService {
         entity.setPassword(MD5Util.getMd5Hash(dto.getPassword()));
         entity.setPhone(dto.getPhone());
         entity.setStatus(GeneralStatus.ACTIVE);
-        entity.setRole(ProfileRole.USER);
+        entity.setRole(ProfileRole.ADMIN);
         profileRepository.save(entity);
 
         dto.setId(entity.getId());

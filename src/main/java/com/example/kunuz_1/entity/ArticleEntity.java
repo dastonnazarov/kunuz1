@@ -1,9 +1,13 @@
 package com.example.kunuz_1.entity;
 
 
+import com.example.kunuz_1.enums.ArticleStatus;
+import com.example.kunuz_1.enums.ProfileRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,13 +18,13 @@ public class ArticleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "title")
+    @Column(name = "title",columnDefinition = "text")
     private String title;
 
-    @Column(name = "description")
+    @Column(name = "description",columnDefinition = "text")
     private String description;
 
-    @Column(name = "content")
+    @Column(name = "content",columnDefinition = "text")
     private String content;
 
     @Column(name = "shared_count")
@@ -29,11 +33,38 @@ public class ArticleEntity {
     @Column(name = "image_Id")
     private Integer image_id;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id")
-    private  Integer region_id;
+    private RegionEntity region;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "region_id")
-    private Integer category_id;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private CategoryEntity category;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "moderator_id")
+    private ProfileEntity moderator;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "publisher_id")
+    private ProfileEntity publisher;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private ArticleStatus status;
+
+    @Column(name = "created_date")
+    private LocalDateTime created_date = LocalDateTime.now();
+
+    @Column(name = "published_date")
+    private LocalDateTime published_date = LocalDateTime.now();
+
+    @Column(name = "visible")
+    private Boolean visible;
+
+    @Column(name = "view_count")
+    private Integer view_count;
+
+
+
 }

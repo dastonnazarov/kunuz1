@@ -1,15 +1,12 @@
 package com.example.kunuz_1.service;
 
 import com.example.kunuz_1.dto.articleType.ArticleTypeDTO;
-import com.example.kunuz_1.dto.profile.ProfileDTO;
 import com.example.kunuz_1.entity.ArticleTypeEntity;
-import com.example.kunuz_1.entity.ProfileEntity;
 import com.example.kunuz_1.excp.AppBadRequestException;
 import com.example.kunuz_1.repository.ArticleTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;

@@ -10,7 +10,7 @@ public class Kunuz1Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Kunuz1Application.class, args);
-        System.out.println(JwtUtil.encode(3, ProfileRole.ADMIN));
+        System.out.println(JwtUtil.encode(3, ProfileRole.MODERATOR));
     }
 
 }

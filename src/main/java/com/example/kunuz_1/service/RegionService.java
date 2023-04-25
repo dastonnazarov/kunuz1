@@ -1,7 +1,6 @@
 package com.example.kunuz_1.service;
 
 
-import com.example.kunuz_1.dto.articleType.ArticleTypeDTO;
 import com.example.kunuz_1.dto.region.RegionDTO;
 import com.example.kunuz_1.entity.RegionEntity;
 import com.example.kunuz_1.excp.AppBadRequestException;
@@ -20,15 +19,9 @@ public class RegionService {
     @Autowired
     private RegionRepository regionRepository;
 
-    public void isValidProfile(ArticleTypeDTO dto) {
-        // throw ...
-        Optional<RegionEntity> optional = regionRepository.findById((dto.getId()));
-        if (optional.isPresent()) {
-            throw new AppBadRequestException(" bu foydalanuvchi yoqku");
-        }
-    }
 
-    public RegionDTO create(RegionDTO dto, Integer id) {
+    public RegionDTO create(RegionDTO dto) {
+        isValidProfile(dto);
         RegionEntity entity = new RegionEntity();
         entity.setNameUz(dto.getNameUZ());
         entity.setNameRu(dto.getNameRU());
@@ -43,7 +36,7 @@ public class RegionService {
 
     public RegionDTO update(Integer id, RegionDTO dto) {
         Optional<RegionEntity> optional = regionRepository.findById(id);
-        if(optional.isEmpty()){
+        if (optional.isEmpty()) {
             throw new AppBadRequestException("not found");
         }
         RegionEntity entity = optional.get();
@@ -58,7 +51,7 @@ public class RegionService {
 
     public Boolean delete(Integer id) {
         Optional<RegionEntity> byId = regionRepository.findById(id);
-        if (byId.isEmpty()){
+        if (byId.isEmpty()) {
             throw new AppBadRequestException("profile not found");
         }
         regionRepository.delete(byId.get());
@@ -84,5 +77,20 @@ public class RegionService {
         }
         Page<RegionDTO> response = new PageImpl<RegionDTO>(dtoList, pageable, totalCount);
         return response;
+    }
+
+    public void isValidProfile(RegionDTO dto) {
+        Optional<RegionEntity> optional = regionRepository.findById((dto.getId()));
+        if (optional.isPresent()) {
+            throw new AppBadRequestException(" bu foydalanuvchi yoqku");
+        }
+    }
+
+    public RegionEntity get(Integer id) {
+        Optional<RegionEntity> optional = regionRepository.findById(id);
+        if (optional.isEmpty()) {
+            throw new AppBadRequestException("region not found");
+        }
+        return optional.get();
     }
 }
