@@ -17,19 +17,21 @@ Content-Type: application/json
 }
 
 ### article update
-PUT localhost:8081/api/v1/article/update/3
+PUT localhost:8081/api/v1/article/update/6
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODIzNDM1MzksImlkIjozLCJyb2xlIjoiTU9ERVJBVE9SIiwiZXhwIjoxNjgyNDI5OTM5LCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.XMGPa_dBm-CEtdmlwDsz-AflziH8nQrUh70_joT9rxZmbScXhnMw8yeu-phQFEhM_nlx3FO0kyyxsEOvINrGrQ
 Content-Type: application/json
 
 {
-  "title": "hh",
-  "description": "cccc",
-  "content": "ttrrr",
+  "title": "qq",
+  "description": "ww",
+  "content": "rrtt",
   "shared_count": 2,
   "image_id": 4,
   "region_id": 1,
   "category_id": 1,
-  "moderator_id": 1
+  "view_count": 11,
+  "moderator_id": 1,
+  "publisher_id": 2
 }
 
 ### article delete
@@ -39,7 +41,18 @@ Content-Type: application/json
 
 
 ### article changeStatus
-PUT localhost:8081/api/v1/article/changeStatus/3
+PUT localhost:8081/api/v1/article/changeStatus/4
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI0MDQxNzMsImlkIjoyLCJyb2xlIjoiUFVCTElTSEVSIiwiZXhwIjoxNjgyNDkwNTczLCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.rZrgF6Vy5ojLb16ZgNygXUAT9wSy-lIj1m3bexGb6oohvJUoOiYktat46CCLGcD3BOQDuVoinWSqYyDx9dCRzg
 Content-Type: application/json
+
+{
+  "status": "NO_PUBLISHED"
+}
+
+### article getListLast5
+GET localhost:8081/api/v1/article/getListLast5?page=1&size=4
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2ODI0MzE0MzcsImlkIjo2LCJyb2xlIjoiUFVCTElTSEVSIiwiZXhwIjoxNjgyNTE3ODM3LCJpc3MiOiJLdW51eiB0ZXN0IHBvcnRhbGkifQ.WCHQ6aSEDlbY5hx79313hcE1WXzmLDMa5V-P_un8eKd861dPv7iCriSJOY-bMi07jGUKu_5ZfmrxP2W7fYq7tQ
+Content-Type: application/json
+
+
 
