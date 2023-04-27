@@ -1,18 +1,16 @@
 package com.example.kunuz_1.service;
-
+import com.example.kunuz_1.dto.articleType.ArticleTypeDTO;
+import com.example.kunuz_1.dto.attach.AttachDTO;
+import com.example.kunuz_1.entity.ArticleTypeEntity;
 import com.example.kunuz_1.entity.AttachEntity;
 import com.example.kunuz_1.excp.ItemNotFoundException;
 import com.example.kunuz_1.repository.AttachRepository;
-import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -24,6 +22,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -73,7 +73,6 @@ public class AttachService {
         return null;
     }
 
-
     public String getExtension(String fileName) { // mp3/jpg/npg/mp4.....
         int lastIndex = fileName.lastIndexOf(".");
         return fileName.substring(lastIndex + 1);
@@ -107,7 +106,6 @@ public class AttachService {
         }
         return new byte[0];
     }
-
 
     public String saveToSystem3(MultipartFile file) {
         try {
@@ -146,8 +144,7 @@ public class AttachService {
         return year + "/" + month + "/" + day; // 2022/04/23
     }
 
-
-        public byte[] open_general2(String attachName) {
+    public byte[] open_general2(String attachName) {
         // 20f0f915-93ec-4099-97e3-c1cb7a95151f.jpg
         int lastIndex = attachName.lastIndexOf(".");
         String id = attachName.substring(0,lastIndex);
@@ -169,28 +166,62 @@ public class AttachService {
         });
     }
 
-//    public Resource download(String fileName) {
-//        try {
-//            int lastIndex = fileName.lastIndexOf(".");
-//            String id = fileName.substring(0, lastIndex);
-//            AttachEntity attachEntity = get(id);
-//
-//            Path file = Paths.get("attaches/" + attachEntity.getPath() + "/" + fileName);
-//            Resource resource = (Resource) new UrlResource(file.toUri());
-//
-//            if (resource.exists() || resource.isReadable()) {
-//                return resource;
-//            } else {
-//                throw new RuntimeException("Could not read the file!");
-//            }
-//        } catch (MalformedURLException e) {
-//            throw new RuntimeException("Error: " + e.getMessage());
-//        }
-//    }
+    public Resource download(String fileName) {
+        try {
+            int lastIndex = fileName.lastIndexOf(".");
+            String id = fileName.substring(0, lastIndex);
+            AttachEntity attachEntity = get(id);
 
+            Path file = Paths.get("attaches/" + attachEntity.getPath() + "/" + fileName);
+            Resource resource = new UrlResource(file.toUri());
 
-
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("Could not read the file!");
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
     }
+
+
+    public Page<AttachEntity> pagination(int page, int size) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdData");
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+        Page<AttachEntity> pageObj = attachRepository.findAll(pageable);
+        Long totalCount = pageObj.getTotalElements();
+
+        List<AttachEntity> entityList = pageObj.getContent();
+        List<AttachEntity> dtoList = new LinkedList<>();
+
+        for (AttachEntity entity : entityList) {
+            AttachEntity dto = new AttachEntity();
+            dto.setId(UUID.randomUUID().toString());
+            dto.setOriginalName(entity.getOriginalName());
+            dto.setPath(entity.getPath());
+            dto.setSize(entity.getSize());
+            dto.setExtension(entity.getExtension());
+            dto.setCreatedData(entity.getCreatedData());
+            dtoList.add(dto);
+        }
+        Page<AttachEntity> response = new PageImpl<>(dtoList, pageable, totalCount);
+        return response;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //    public String saveToSystem(MultipartFile file) {

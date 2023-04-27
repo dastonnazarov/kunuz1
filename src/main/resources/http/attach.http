@@ -11,7 +11,7 @@ Content-Disposition: form-data; name="file"; filename="vv.mp4"
 
 
 ###  upload1
-POST http://localhost:8081/api/v1/attach/ upload1
+POST http://localhost:8081/api/v1/attach/upload1
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
 
@@ -19,6 +19,16 @@ Content-Type: multipart/form-data; boundary=WebAppBoundary
 Content-Disposition: form-data; name="file"; filename="vv.mp4"
 
 < D:\photo\vv.mp4
+
+
+###  pagination
+GET http://localhost:8081/api/v1/attach/pagination
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+
+
+
+
 
 
 

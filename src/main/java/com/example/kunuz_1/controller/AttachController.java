@@ -1,8 +1,14 @@
 package com.example.kunuz_1.controller;
 
+import com.example.kunuz_1.dto.articleType.ArticleTypeDTO;
+import com.example.kunuz_1.dto.attach.AttachDTO;
+import com.example.kunuz_1.entity.AttachEntity;
+import com.example.kunuz_1.enums.ProfileRole;
 import com.example.kunuz_1.service.AttachService;
-import jakarta.annotation.Resource;
+import com.example.kunuz_1.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -51,11 +57,17 @@ public class AttachController {
         return attachService.open_general2(fileName);
     }
 
-//    @GetMapping("/download/{fineName}")
-//    public ResponseEntity<Resource> download(@PathVariable("fineName") String fileName) {
-//        AttachService attachService;
-//        Resource file = attachService.download(fileName);
-//        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-//                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-//    }
+    @GetMapping("/download/{fineName}")
+    public ResponseEntity<Resource> download(@PathVariable("fineName") String fileName) {
+        Resource file = attachService.download(fileName);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
+
+
+    @GetMapping( "/pagination")
+    public ResponseEntity<Page<AttachEntity>> paging(@RequestParam(value = "page", defaultValue = "1") int page,
+                                                     @RequestParam(value = "size", defaultValue = "2") int size) {
+        return ResponseEntity.ok(attachService.pagination(page,size));
+    }
 }

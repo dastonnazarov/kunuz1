@@ -17,10 +17,10 @@ POST localhost:8081/api/v1/auth/registration
 Content-Type:  application/json
 
 {
-  "name": "Admin",
-  "surname": "Adminov",
-  "email": "admin@mail.ru",
-  "phone": "112233",
-  "password": "555"
+  "name": "sardor",
+  "surname": "savobov",
+  "email": "dastonnazarov0910@mail.com",
+  "phone": "00001",
+  "password": "00001"
 }
 

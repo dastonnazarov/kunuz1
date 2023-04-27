@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class MailSenderService {
     @Autowired
     private JavaMailSender javaMailSender;
+
     @Value("${spring.mail.username}")
     private String fromAccount;
     @Value("${server.host}")
@@ -45,7 +46,6 @@ public class MailSenderService {
         sendEmailMime(toAccount, "Registration", stringBuilder.toString());
     }
 
-
     private void sendEmail(String toAccount, String subject, String text) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom(fromAccount);
@@ -54,7 +54,6 @@ public class MailSenderService {
         msg.setText(text);
         javaMailSender.send(msg);
     }
-
 
     private void sendEmailMime(String toAccount, String subject, String text) {
         MimeMessage msg = javaMailSender.createMimeMessage();
