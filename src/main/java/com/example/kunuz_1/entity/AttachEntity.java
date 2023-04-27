@@ -17,19 +17,16 @@ import java.time.LocalDateTime;
 @Table(name = "attach")
 public class AttachEntity {
     @Id
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+  //  @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
-    @Column(name = "name")
-    private String name;
-
-//    @Column(name = "original_name")
-//    private String originalName;
-//    @Column
-//    private String path;
-//    @Column
-//    private Long size;
-//    @Column
-//    private String extension;
-//    @Column(name = "created_date")
-//    private LocalDateTime createdData;
+    @Column(name = "original_name")
+    private String originalName;
+    @Column
+    private String path;
+    @Column
+    private Long size;
+    @Column
+    private String extension;
+    @Column(name = "created_date")
+    private LocalDateTime createdData;
 }

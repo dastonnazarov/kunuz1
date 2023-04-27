@@ -1,11 +1,25 @@
 
-
+###  upload
 POST http://localhost:8081/api/v1/attach/upload
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
---WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="camera.jpg"
 
-< D:\photo\camera.jpg
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="vv.mp4"
+
+< D:\photo\vv.mp4
+
+
+###  upload1
+POST http://localhost:8081/api/v1/attach/ upload1
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="vv.mp4"
+
+< D:\photo\vv.mp4
+
+
 
 
