@@ -25,6 +25,9 @@ Content-Disposition: form-data; name="file"; filename="vv.mp4"
 GET http://localhost:8081/api/v1/attach/pagination
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
+###  delete
+DELETE http://localhost:8081/api/v1/attach/delete/2db39b7e-f95c-436c-86cc-093527ee93a3
+
 
 
 

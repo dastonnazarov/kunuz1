@@ -1,11 +1,13 @@
 package com.example.kunuz_1.controller;
 
 import com.example.kunuz_1.dto.article.ArticleDTO;
+import com.example.kunuz_1.dto.article.ArticleRequestDTO;
 import com.example.kunuz_1.dto.jwt.JwtDTO;
 import com.example.kunuz_1.enums.ProfileRole;
 import com.example.kunuz_1.excp.MethodNotAllowedException;
 import com.example.kunuz_1.service.ArticleService;
 import com.example.kunuz_1.util.JwtUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -17,20 +19,18 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
-    @PostMapping({"","/"})
-   public ResponseEntity<ArticleDTO> create(@RequestBody ArticleDTO dto,
-                                            @RequestHeader("Authorization") String authorization){
-
-       JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization,ProfileRole.MODERATOR);
-       return ResponseEntity.ok(articleService.create(dto));
-   }
-
+    @PostMapping("")
+    public ResponseEntity<ArticleRequestDTO> create(@RequestBody  @Valid ArticleRequestDTO dto,
+                                                    @RequestHeader("Authorization") String authorization) {
+        JwtDTO jwt = JwtUtil.getJwtDTO(authorization, ProfileRole.MODERATOR);
+        return ResponseEntity.ok(articleService.create(dto, jwt.getId()));
+    }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ArticleDTO> update(@PathVariable("id") Integer id, @RequestBody ArticleDTO dto,
+    public ResponseEntity<ArticleRequestDTO> update(@PathVariable("id") String id, @RequestBody ArticleRequestDTO dto,
                                                  @RequestHeader("Authorization") String authorization){
         JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization,ProfileRole.MODERATOR);
-        return ResponseEntity.ok(articleService.update(id,dto));
+        return ResponseEntity.ok(articleService.update(dto,id));
     }
 
     @DeleteMapping("/delete/{id}")
@@ -48,15 +48,10 @@ public class ArticleController {
     }
 
     @GetMapping("/getListLast5")
-    public ResponseEntity<Page<ArticleDTO>> getListLast5(@RequestParam(value = "page",defaultValue = "1") int page,
+    public ResponseEntity<Page<ArticleRequestDTO>> getListLast5(@RequestParam(value = "page",defaultValue = "1") int page,
                                                        @RequestParam(value = "size",defaultValue = "6") int size,
                                                        @RequestHeader("Authorization") String authorization) {
-        String[] str = authorization.split(" ");
-        String jwt = str[1];
-        JwtDTO jwtDTO = JwtUtil.decode(jwt);
-        if (!jwtDTO.getRole().equals(ProfileRole.MODERATOR)) {
-            throw new MethodNotAllowedException("Method not allowed");
-        }
+        JwtDTO jwtDTO = JwtUtil.getJwtDTO(authorization,ProfileRole.MODERATOR);
         return ResponseEntity.ok(articleService.getListLast5(page,size));
     }
 

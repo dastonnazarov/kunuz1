@@ -2,8 +2,10 @@ package com.example.kunuz_1.controller;
 
 import com.example.kunuz_1.dto.articleType.ArticleTypeDTO;
 import com.example.kunuz_1.dto.attach.AttachDTO;
+import com.example.kunuz_1.dto.jwt.JwtDTO;
 import com.example.kunuz_1.entity.AttachEntity;
 import com.example.kunuz_1.enums.ProfileRole;
+import com.example.kunuz_1.excp.MethodNotAllowedException;
 import com.example.kunuz_1.service.AttachService;
 import com.example.kunuz_1.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,5 +71,10 @@ public class AttachController {
     public ResponseEntity<Page<AttachEntity>> paging(@RequestParam(value = "page", defaultValue = "1") int page,
                                                      @RequestParam(value = "size", defaultValue = "2") int size) {
         return ResponseEntity.ok(attachService.pagination(page,size));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") String id){
+        return ResponseEntity.ok(attachService.delete(id));
     }
 }

@@ -1,4 +1,5 @@
 package com.example.kunuz_1.service;
+
 import com.example.kunuz_1.dto.articleType.ArticleTypeDTO;
 import com.example.kunuz_1.dto.attach.AttachDTO;
 import com.example.kunuz_1.entity.ArticleTypeEntity;
@@ -11,6 +12,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -44,8 +46,8 @@ public class AttachService {
             }
             byte[] bytes = file.getBytes();
             Path path = Paths.get("attaches" + File.separator + file.getOriginalFilename());
-               Files.write(path,bytes);
-               return file.getOriginalFilename();
+            Files.write(path, bytes);
+            return file.getOriginalFilename();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,7 +55,7 @@ public class AttachService {
         return null;
     }
 
-    public String  saveToSystem2(MultipartFile file) {
+    public String saveToSystem2(MultipartFile file) {
         try {
             File folder = new File("attaches");
             if (!folder.exists()) {
@@ -147,7 +149,7 @@ public class AttachService {
     public byte[] open_general2(String attachName) {
         // 20f0f915-93ec-4099-97e3-c1cb7a95151f.jpg
         int lastIndex = attachName.lastIndexOf(".");
-        String id = attachName.substring(0,lastIndex);
+        String id = attachName.substring(0, lastIndex);
         AttachEntity attachEntity = get(id);
         byte[] data;
         try {                                                     // attaches/2023/4/25/20f0f915-93ec-4099-97e3-c1cb7a95151f.jpg
@@ -162,7 +164,7 @@ public class AttachService {
 
     public AttachEntity get(String id) {
         return (AttachEntity) attachRepository.findById(id).orElseThrow(() -> {
-            throw new ItemNotFoundException("Attach not ound");
+            throw new ItemNotFoundException("Attach not found");
         });
     }
 
@@ -209,19 +211,25 @@ public class AttachService {
         return response;
     }
 
+    public boolean delete(String id) {
+        AttachEntity entity = get(id);
+        if (entity == null) {
+            throw new RuntimeException("entity is null");
+        }
+        attachRepository.delete(entity);
+        return true;
+//            try {
+//                int lastIndex = fileName.lastIndexOf(".");
+//                String id = fileName.substring(0, lastIndex);
+//                AttachEntity attachEntity = get(id);
+//                Path file = Paths.get("attaches/" + attachEntity.getPath() + "/" + fileName);
+//                return Files.deleteIfExists(file);
+//            } catch (IOException e) {
+//                throw new RuntimeException("Error: " + e.getMessage());
+//            }
+//    }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //    public String saveToSystem(MultipartFile file) {

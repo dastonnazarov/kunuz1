@@ -1,6 +1,7 @@
 package com.example.kunuz_1.service;
 
 import com.example.kunuz_1.dto.article.ArticleDTO;
+import com.example.kunuz_1.dto.article.ArticleRequestDTO;
 import com.example.kunuz_1.dto.profile.ProfileDTO;
 import com.example.kunuz_1.entity.*;
 import com.example.kunuz_1.enums.ArticleStatus;
@@ -11,6 +12,7 @@ import com.example.kunuz_1.repository.ArticleRepository;
 import com.example.kunuz_1.repository.CategoryRepository;
 import com.example.kunuz_1.repository.ProfileRepository;
 import com.example.kunuz_1.repository.RegionRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -20,41 +22,39 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class ArticleService {
-    @Autowired
-    private ArticleRepository articleRepository;
-    @Autowired
-    private RegionRepository regionRepository;
-    @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
+    private final ProfileService profileService;
+    private final RegionService regionService;
+    private final CategoryService categoryService;
+    private final ArticleRepository articleRepository;
+
     private ProfileRepository profileRepository;
+    private RegionRepository regionRepository;
+    private CategoryRepository categoryRepository;
 
 
-    public ArticleDTO create(ArticleDTO dto) {
-        isValidProfile(dto);
-        Optional<RegionEntity> region = regionRepository.findById(dto.getRegion_id());
-        Optional<CategoryEntity> category = categoryRepository.findById(dto.getCategory_id());
-        Optional<ProfileEntity> moderator = profileRepository.findById(dto.getModerator().getId());
-        Optional<ProfileEntity> publisher = profileRepository.findById(dto.getPublisher().getId());
+    public ArticleRequestDTO create(ArticleRequestDTO dto, Integer moderId) {
+        // check
+//        ProfileEntity moderator = profileService.get(moderId);
+//        RegionEntity region = regionService.get(dto.getRegionId());
+//        CategoryEntity category = categoryService.get(dto.getCategoryId());
+
         ArticleEntity entity = new ArticleEntity();
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
         entity.setContent(dto.getContent());
-        entity.setShared_count(dto.getShared_count());
-        entity.setImage_id(dto.getImage_id());
-        entity.setRegion(region.get());
-        entity.setCategory(category.get());
-        entity.setModerator(moderator.get());
-        entity.setPublisher(publisher.get());
-        entity.setView_count(dto.getView_count());
-        entity.setStatus(ArticleStatus.NO_PUBLISHED);
-        entity.setVisible(true);
+        entity.setModeratorId(moderId);
+        entity.setRegionId(dto.getRegionId());
+        entity.setCategoryId(dto.getCategoryId());
+        entity.setAttachId(dto.getAttachId());
+        // type
         articleRepository.save(entity);
         return dto;
     }
 
-    public void isValidProfile(ArticleDTO dto) {
+
+    public void isValidProfile(ArticleRequestDTO dto) {
         if (dto.getTitle() == null) {
             throw new ItemNotFoundException("title not found");
         }
@@ -64,52 +64,30 @@ public class ArticleService {
         if (dto.getContent() == null) {
             throw new ItemNotFoundException("content not found");
         }
-        if (dto.getShared_count() == null) {
-            throw new ItemNotFoundException("shared_count not found");
+        if (dto.getTypeList() == null) {
+            throw new ItemNotFoundException("getTypeList not found");
         }
-        if (dto.getImage_id() == null) {
-            throw new ItemNotFoundException("image_id not found");
+        if (dto.getAttachId() == null) {
+            throw new ItemNotFoundException("attach not found");
         }
-        if (dto.getRegion_id() == null) {
+        if (dto.getRegionId() == null) {
             throw new ItemNotFoundException("region_id not found");
         }
-        Optional<RegionEntity> regionOptional = regionRepository.findById(dto.getRegion_id());
-        if (regionOptional.isEmpty()) {
-            throw new ItemNotFoundException("region not found");
-        }
-        if (dto.getCategory_id() == null) {
+        if (dto.getCategoryId() == null) {
             throw new ItemNotFoundException("category_id not found");
         }
-        Optional<CategoryEntity> categoryOptional = categoryRepository.findById(dto.getCategory_id());
-        if (categoryOptional.isEmpty()) {
-            throw new ItemNotFoundException("category not found");
-        }
+
     }
 
-    public ArticleDTO update(Integer id, ArticleDTO dto) {
-        Optional<ArticleEntity> optional = articleRepository.findById(id);
-        if (optional.isEmpty()) {
-            throw new AppBadRequestException("article not found");
-        }
-
-        Optional<RegionEntity> region = regionRepository.findById(dto.getRegion_id());
-        Optional<CategoryEntity> category = categoryRepository.findById(dto.getCategory_id());
-        Optional<ProfileEntity> moderator = profileRepository.findById(dto.getModerator().getId());
-        Optional<ProfileEntity> publisher = profileRepository.findById(dto.getPublisher().getId());
-
-        ArticleEntity entity = optional.get();
+    public ArticleRequestDTO update(ArticleRequestDTO dto, String id) {
+        ArticleEntity entity = get(id);
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
         entity.setContent(dto.getContent());
-        entity.setShared_count(dto.getShared_count());
-        entity.setImage_id(dto.getImage_id());
-        entity.setRegion(region.get());
-        entity.setCategory(category.get());
+        entity.setRegionId(dto.getRegionId());
+        entity.setCategoryId(dto.getCategoryId());
+        entity.setAttachId(dto.getAttachId());
         entity.setStatus(ArticleStatus.NO_PUBLISHED);
-        entity.setView_count(dto.getView_count());
-        entity.setPublisher(publisher.get());
-        entity.setModerator(moderator.get());
-        entity.setVisible(true);
         articleRepository.save(entity);
         return dto;
     }
@@ -146,7 +124,7 @@ public class ArticleService {
     }
 
 
-    public Page<ArticleDTO> getListLast5(int page, int size) {
+    public Page<ArticleRequestDTO> getListLast5(int page, int size) {
         Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
         Pageable pageable = PageRequest.of(page - 1, size, sort);
 
@@ -154,30 +132,28 @@ public class ArticleService {
         Long totalCount = pageObj.getTotalElements();
 
         List<ArticleEntity> articleEntityList = pageObj.getContent();
-        List<ArticleDTO> list = new LinkedList<>();
-
+        List<ArticleRequestDTO> list = new LinkedList<>();
 
         for (ArticleEntity entity : articleEntityList) {
-            ArticleDTO dto = new ArticleDTO();
-            Optional<ProfileEntity> moderator = profileRepository.findById(dto.getModerator().getId());
-            Optional<ProfileEntity> publisher = profileRepository.findById(dto.getPublisher().getId());
-
-            dto.setId(dto.getId());
+            ArticleRequestDTO dto = new ArticleRequestDTO();
             dto.setTitle(entity.getTitle());
             dto.setDescription(entity.getDescription());
             dto.setContent(entity.getContent());
-            dto.setShared_count(entity.getShared_count());
-            dto.setImage_id(entity.getImage_id());
-            dto.setRegion_id(entity.getRegion().getId());
-            dto.setCategory_id(entity.getCategory().getId());
-            dto.setModerator(moderator.get());
-            dto.setPublisher(publisher.get());
-            dto.setStatus(ArticleStatus.PUBLISHED);
-            dto.setVisible(true);
-            dto.setView_count(entity.getView_count());
+            dto.setAttachId(entity.getAttachId());
+            dto.setRegionId(entity.getRegionId());
+            dto.setCategoryId(entity.getCategoryId());
             list.add(dto);
         }
-        Page<ArticleDTO> response = new PageImpl<>(list, pageable, totalCount);
+        Page<ArticleRequestDTO> response = new PageImpl<>(list, pageable, totalCount);
         return response;
+    }
+
+
+    public ArticleEntity get(String id) {
+        Optional<ArticleEntity> optional = articleRepository.findById(Integer.valueOf(id));
+        if (optional.isEmpty()) {
+            throw new ItemNotFoundException("Item not found: " + id);
+        }
+        return optional.get();
     }
 }
